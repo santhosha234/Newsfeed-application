@@ -1,0 +1,178 @@
+/* Newsfeed Application CSS
+   - Responsive, modern card-based layout
+   - Supports list/grid views, light/dark theme, skeleton loader
+   - Use variables at :root to customize colors/spacing easily
+*/
+
+:root{
+  --bg: #f6f7fb;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --text: #0f172a;
+  --primary: #2563eb;
+  --accent: #7c3aed;
+  --border: rgba(15,23,42,0.06);
+  --radius: 12px;
+  --gap: 1rem;
+  --max-width: 1100px;
+  --shadow: 0 6px 18px rgba(20, 24, 40, 0.06);
+  --transition: 200ms cubic-bezier(.2,.9,.3,1);
+}
+
+/* Dark theme override (apply .theme-dark to body or html) */
+.theme-dark{
+  --bg: #071020;
+  --card: #081224;
+  --muted: #9aa4b2;
+  --text: #e6eef8;
+  --primary: #1e90ff;
+  --accent: #9b5cff;
+  --border: rgba(255,255,255,0.04);
+  --shadow: 0 8px 30px rgba(3,8,20,0.6);
+}
+
+/* Reset & base */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background:linear-gradient(180deg,var(--bg),var(--bg));
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.45;
+  padding:2rem 1rem;
+}
+
+.container{
+  max-width:var(--max-width);
+  margin:0 auto;
+  display:grid;
+  grid-template-columns: 1fr 320px;
+  gap:calc(var(--gap) * 1.2);
+  align-items:start;
+}
+
+.header{
+  grid-column:1 / -1;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  margin-bottom:1rem;
+}
+
+.brand{
+  display:flex;align-items:center;gap:.75rem;
+}
+.logo{
+  width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--accent));
+  box-shadow:var(--shadow);
+}
+.brand h1{font-size:1.05rem;margin:0}
+.brand p{margin:0;font-size:.9rem;color:var(--muted)}
+
+.controls{
+  display:flex;gap:.5rem;align-items:center;
+}
+
+.search{
+  display:flex;align-items:center;gap:.5rem;padding:.5rem .75rem;border-radius:999px;background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow);min-width:220px;
+}
+.search input{border:0;outline:0;background:transparent;font-size:.95rem;color:var(--text);width:200px}
+
+.view-toggle{display:flex;border-radius:10px;overflow:hidden;background:var(--card);border:1px solid var(--border);}
+.view-toggle button{background:transparent;border:0;padding:.45rem .6rem;cursor:pointer;font-size:.9rem}
+.view-toggle button.active{background:linear-gradient(90deg,var(--primary),var(--accent));color:white}
+
+/* Feed list */
+.feed{
+  display:flex;flex-direction:column;gap:var(--gap);
+}
+
+.article-card{
+  display:grid;grid-template-columns: 220px 1fr;gap:1rem;padding:1rem;border-radius:var(--radius);background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow);transition:transform var(--transition),box-shadow var(--transition);
+}
+.article-card:hover{transform:translateY(-6px)}
+
+.card-image{width:100%;height:140px;border-radius:10px;background-size:cover;background-position:center;border:1px solid rgba(0,0,0,0.04)}
+
+.card-content{display:flex;flex-direction:column;gap:.5rem}
+.card-title{font-weight:600;font-size:1.05rem;margin:0}
+.card-excerpt{margin:0;color:var(--muted);font-size:.95rem}
+
+.meta{display:flex;gap:.6rem;align-items:center;font-size:.85rem;color:var(--muted)}
+.meta .author{display:inline-flex;align-items:center;gap:.5rem}
+.avatar{width:30px;height:30px;border-radius:999px;background:linear-gradient(90deg,#ddd,#bbb);flex-shrink:0}
+
+.tags{display:flex;gap:.4rem;flex-wrap:wrap}
+.tag{padding:.25rem .5rem;border-radius:999px;border:1px solid var(--border);font-size:.8rem;color:var(--muted)}
+
+.read-more{margin-top:.5rem;align-self:flex-start;padding:.45rem .7rem;border-radius:8px;border:0;background:var(--primary);color:white;cursor:pointer;font-weight:600;transition:opacity var(--transition)}
+.read-more.secondary{background:transparent;border:1px solid var(--border);color:var(--text)}
+
+/* Grid view */
+.feed.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.feed.grid .article-card{grid-template-columns:1fr;padding:0;overflow:hidden}
+.feed.grid .card-image{height:180px;border-radius:0}
+.feed.grid .card-content{padding:1rem}
+
+/* Sidebar */
+.sidebar{
+  position:sticky;top:2rem;height:fit-content;display:flex;flex-direction:column;gap:.75rem;
+}
+.widget{background:var(--card);padding:1rem;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow)}
+.widget h3{margin:0 0 .5rem 0}
+
+.trending-list{display:flex;flex-direction:column;gap:.5rem}
+.trending-item{display:flex;gap:.6rem;align-items:center;font-size:.92rem}
+.trending-item .bullet{width:8px;height:8px;border-radius:99px;background:var(--accent)}
+
+/* Pagination / Load more */
+.load-more{display:flex;justify-content:center;margin-top:1rem}
+.btn{padding:.6rem 1rem;border-radius:10px;border:0;background:var(--primary);color:white;cursor:pointer}
+
+/* Empty state */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;border-radius:var(--radius);background:var(--card);border:1px dashed var(--border);color:var(--muted)}
+
+/* Skeleton loader */
+.skeleton{background:linear-gradient(90deg,rgba(255,255,255,0.02) 0%, rgba(0,0,0,0.03) 50%, rgba(255,255,255,0.02) 100%);border-radius:8px;min-height:12px}
+.skeleton-rect{width:100%;height:100px}
+.skeleton-line{height:12px;margin-top:.5rem;width:80%}
+
+/* Utilities */
+.flex{display:flex}
+.center{display:flex;align-items:center;justify-content:center}
+.hidden{display:none}
+.muted{color:var(--muted)}
+.small{font-size:.85rem}
+
+/* Responsive */
+@media (max-width:1000px){
+  .container{grid-template-columns:1fr;}
+  .sidebar{order:2}
+}
+@media (max-width:640px){
+  body{padding:1rem}
+  .article-card{grid-template-columns:1fr;padding:.5rem}
+  .card-image{height:140px}
+  .feed.grid{grid-template-columns:1fr}
+  .search input{width:120px}
+}
+
+/* Accessibility focus states */
+a:focus,button:focus,input:focus{outline:3px solid rgba(37,99,235,0.12);outline-offset:2px}
+
+/* Theme toggler small helper */
+.theme-toggle{display:inline-flex;align-items:center;gap:.5rem}
+.theme-toggle input{display:none}
+.theme-toggle .track{width:42px;height:24px;border-radius:999px;background:var(--border);position:relative}
+.theme-toggle .knob{width:18px;height:18px;border-radius:50%;background:white;position:absolute;top:3px;left:3px;transition:left var(--transition)}
+.theme-toggle input:checked + .track{background:linear-gradient(90deg,var(--primary),var(--accent))}
+.theme-toggle input:checked + .track .knob{left:21px}
+
+/* Small polished touches */
+.article-card .card-image::after{content:'';position:absolute;pointer-events:none}
+
+/* End of file */
